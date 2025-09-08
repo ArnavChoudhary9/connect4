@@ -45,12 +45,13 @@ bool GraphicsEngine::Initialize(int width, int height, const std::string& title)
     m_height = height;
     
     glViewport(0, 0, width, height);
-    glEnable(GL_DEPTH_TEST);
+    // Disable depth testing for 2D rendering
+    glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     m_renderer = std::make_unique<Renderer>();
-    if (!m_renderer->Initialize()) {
+    if (!m_renderer->Initialize(width, height)) {
         std::cerr << "Failed to initialize renderer\n";
         return false;
     }
@@ -81,7 +82,7 @@ void GraphicsEngine::BeginFrame() {
     glfwPollEvents();
     
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void GraphicsEngine::EndFrame() {
@@ -94,6 +95,10 @@ void GraphicsEngine::FramebufferSizeCallback(GLFWwindow* window, int width, int 
         engine->m_width = width;
         engine->m_height = height;
         glViewport(0, 0, width, height);
+        // Update renderer's projection matrix for new size
+        if (engine->m_renderer) {
+            engine->m_renderer->UpdateProjection(width, height);
+        }
     }
 }
 
