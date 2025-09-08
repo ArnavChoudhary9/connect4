@@ -262,6 +262,8 @@ void Renderer::CreateLineGeometry() {
 }
 
 void Renderer::SetupOrthographicProjection() {
-    // Set up 2D orthographic projection where (0,0) is top-left
-    m_projectionMatrix = glm::ortho(0.0f, (float)m_screenWidth, (float)m_screenHeight, 0.0f, -1.0f, 1.0f);
+    // Set up 2D orthographic projection where (0,0) is center of screen
+    float halfWidth = (float)m_screenWidth * 0.5f;
+    float halfHeight = (float)m_screenHeight * 0.5f;
+    m_projectionMatrix = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, -1.0f, 1.0f);
 }

@@ -1,8 +1,13 @@
-#include "GraphicsEngine.h"
-#include "Renderer.h"
+#include "GraphicsEngine/GraphicsEngine.h"
+#include "GraphicsEngine/Renderer.h"
 #include <iostream>
 
 int main() {
+    const glm::vec3 clearColor = { 0.1f, 0.1f, 0.1f };
+    const int rows = 5;
+    const int cols = 7;
+    const float cellSize = 100.0f;
+
     GraphicsEngine engine;
     
     if (!engine.Initialize(800, 600, "Connect4")) {
@@ -13,26 +18,16 @@ int main() {
     auto* renderer = engine.GetRenderer();
 
     while (engine.IsRunning()) {
-        engine.BeginFrame();
-        
-        // Draw a red quad
-        renderer->DrawQuad({ 100, 100, 0 }, { 100, 100 }, { 1.0f, 0.0f, 0.0f });
-        renderer->DrawQuad({ 0, 0, 0 }, { 100, 100 }, { 1.0f, 0.0f, 0.0f });
-        
-        // Draw a green circle
-        renderer->DrawCircle({ 300, 150, 0 }, 50, { 0.0f, 1.0f, 0.0f });
+        engine.BeginFrame(clearColor);
 
-        // Draw a blue triangle
-        renderer->DrawTriangle(
-            { 500, 100, 0 },
-            { 450, 200, 0 },
-            { 550, 200, 0 },
-            { 0.0f, 0.0f, 1.0f }
-        );
-        
-        // Draw yellow lines
-        renderer->DrawLine({ 100, 300, 0 }, { 300, 350, 0 }, 5.0f, { 1.0f, 1.0f, 0.0f });
-        renderer->DrawLine({ 400, 300, 0 }, { 600, 400, 0 }, 3.0f, { 1.0f, 0.5f, 0.0f });
+        // Draw circles at grid corners
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                float x = (col - (cols - 1) / 2.0f) * cellSize;
+                float y = (row - (rows - 1) / 2.0f) * cellSize;
+                renderer->DrawCircle({ x, y, 0.0f }, 5.0f, { 0.9f, 0.9f, 0.9f });
+            }
+        }
 
         engine.EndFrame();
     }

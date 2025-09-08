@@ -1,6 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <string>
 #include <memory>
 
@@ -16,7 +17,7 @@ public:
     void Shutdown();
     bool IsRunning() const;
     
-    void BeginFrame();
+    void BeginFrame(const glm::vec3& clearColor = {0.1f, 0.1f, 0.1f});
     void EndFrame();
     
     GLFWwindow* GetWindow() const { return m_window; }

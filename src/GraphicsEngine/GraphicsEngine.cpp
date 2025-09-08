@@ -78,10 +78,10 @@ bool GraphicsEngine::IsRunning() const {
     return m_initialized && !glfwWindowShouldClose(m_window);
 }
 
-void GraphicsEngine::BeginFrame() {
+void GraphicsEngine::BeginFrame(const glm::vec3& clearColor) {
     glfwPollEvents();
-    
-    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+
+    glClearColor(clearColor.r, clearColor.g, clearColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
