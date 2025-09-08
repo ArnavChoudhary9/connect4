@@ -44,16 +44,16 @@ target_include_directories(glad PUBLIC ${GLAD_OUT_DIR}/include)
 # --------------------
 # Main app
 # --------------------
-add_executable(opengl_window src/main.cpp)
-target_compile_definitions(opengl_window PRIVATE GLFW_INCLUDE_NONE)
+add_executable(Connect4 src/main.cpp)
+target_compile_definitions(Connect4 PRIVATE GLFW_INCLUDE_NONE)
 
-target_link_libraries(opengl_window PRIVATE glfw glad opengl32)
+target_link_libraries(Connect4 PRIVATE glfw glad opengl32)
 
 # --------------------
 # Copy GLFW DLL automatically
 # --------------------
-add_custom_command(TARGET opengl_window POST_BUILD
+add_custom_command(TARGET Connect4 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_FILE:glfw>
-        $<TARGET_FILE_DIR:opengl_window>
+        $<TARGET_FILE_DIR:Connect4>
 )
