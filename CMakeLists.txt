@@ -19,6 +19,11 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 add_subdirectory(external/glfw)
 
 # --------------------
+# GLM as submodule
+# --------------------
+add_subdirectory(external/glm)
+
+# --------------------
 # GLAD auto-generation
 # --------------------
 set(GLAD_OUT_DIR ${CMAKE_BINARY_DIR}/glad)
@@ -44,10 +49,13 @@ target_include_directories(glad PUBLIC ${GLAD_OUT_DIR}/include)
 # --------------------
 # Main app
 # --------------------
-add_executable(Connect4 src/main.cpp)
+# Collect all .cpp files in src/
+file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS src/*.cpp)
+
+add_executable(Connect4 ${SRC_FILES})
 target_compile_definitions(Connect4 PRIVATE GLFW_INCLUDE_NONE)
 
-target_link_libraries(Connect4 PRIVATE glfw glad opengl32)
+target_link_libraries(Connect4 PRIVATE glfw glad glm::glm opengl32)
 
 # --------------------
 # Copy GLFW DLL automatically
