@@ -20,12 +20,27 @@ int main() {
     while (engine.IsRunning()) {
         engine.BeginFrame(clearColor);
 
+        // Draw grid lines
+        for (int row = 0; row < rows; row++) {
+            float y = (row - (rows - 1) / 2.0f) * cellSize;
+            float startX = -(cols - 1) / 2.0f * cellSize;
+            float endX = (cols - 1) / 2.0f * cellSize;
+            renderer->DrawLine({ startX, y, 0.0f }, { endX, y, 0.0f }, 6.0f, { 0.4f, 0.4f, 0.4f });
+        }
+
+        for (int col = 0; col < cols; col++) {
+            float x = (col - (cols - 1) / 2.0f) * cellSize;
+            float startY = -(rows - 1) / 2.0f * cellSize;
+            float endY = (rows - 1) / 2.0f * cellSize;
+            renderer->DrawLine({ x, startY, 0.0f }, { x, endY, 0.0f }, 6.0f, { 0.4f, 0.4f, 0.4f });
+        }
+
         // Draw circles at grid corners
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 float x = (col - (cols - 1) / 2.0f) * cellSize;
                 float y = (row - (rows - 1) / 2.0f) * cellSize;
-                renderer->DrawCircle({ x, y, 0.0f }, 5.0f, { 0.9f, 0.9f, 0.9f });
+                renderer->DrawCircle({ x, y, 0.0f }, 10.0f, { 0.9f, 0.9f, 0.9f });
             }
         }
 
